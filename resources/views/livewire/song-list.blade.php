@@ -1,4 +1,4 @@
-<div class="min-h-[87vh]" x-data="{ deleteSong: false, songArtists: false}">
+<div class="min-h-[87vh]" x-data="{ deleteSong: false, songArtists: false, rateSong: false}">
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <h2 class="font-semibold text-xl text-gray-700 leading-tight">
@@ -77,6 +77,15 @@
                                                  class="inline fill-current text-gray-700 cursor-pointer">
                                                 <path
                                                     d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-5 17l1.006-4.036 3.106 3.105-4.112.931zm5.16-1.879l-3.202-3.202 5.841-5.919 3.201 3.2-5.84 5.921z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="#" class="inline-flex" x-on:click="rateSong=true"
+                                           wire:click="setSong('{{$song->id}}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24"
+                                                 class="inline fill-current text-yellow-400 cursor-pointer">
+                                                <path
+                                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z"/>
                                             </svg>
                                         </a>
                                         <a class="inline-flex" x-on:click="deleteSong=true"
@@ -185,6 +194,71 @@
                         </div>
                     </div>
                     {{--   view Song artists modal--}}
+
+                    {{--   rate Song modal--}}
+                    <div x-cloak x-show="rateSong"
+                         class="fixed top-0 left-0 bg-opacity-50 w-full h-screen  bg-gray-800 z-40 flex items-center justify-center">
+                        <div class="w-11/12 md:w-1/3 shadow rounded-lg bg-white rounded-lg p-4 text-gray-800">
+                            <form method="post" wire:submit.prevent="rateSong">
+                                <div class="max-w-7xl mx-auto sm:px-6">
+                                    <div class="overflow-hidden sm:rounded-lg">
+                                        @csrf
+                                        <div class="">
+                                            <label class="block font-medium text-sm text-gray-700">User</label>
+                                            <input type="email" placeholder="Your Email" required=""
+                                                   class="form-control" wire:model="user">
+                                        </div>
+
+                                        <div>
+                                            <div class="star-rating w-full">
+                                                <input type="radio" id="5-stars" name="rating" wire:model="rating"
+                                                       value="5" required/>
+                                                <label for="5-stars" title="Very Hepful"
+                                                       class="star mr-0">&#9733;</label>
+
+                                                <input type="radio" id="4-stars" name="rating" wire:model="rating"
+                                                       value="4"/>
+                                                <label for="4-stars" title="Mostly Helpful"
+                                                       class="star">&#9733;</label>
+
+                                                <input type="radio" id="3-stars" name="rating" wire:model="rating"
+                                                       value="3"/>
+                                                <label for="3-stars" title="Slightly Helpful"
+                                                       class="star">&#9733;</label>
+
+                                                <input type="radio" id="2-stars" name="rating" wire:model="rating"
+                                                         value="2"/>
+                                                <label for="2-stars" title="Possibly Helpful"
+                                                       class="star">&#9733;</label>
+
+                                                <input type="radio" id="1-star" name="rating" wire:model="rating"
+                                                       value="1"/>
+                                                <label for="1-star" title="Unhelpful"
+                                                       class="star">&#9733;</label>
+                                            </div>
+                                        </div>
+                                        @if (session()->has('message'))
+                                            <p class="text-yellow-600 text-center text-xs">{{ session('message') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="my-3">
+                                    <div class="flex my-2 items-center">
+                                        <div>
+                                            <button class="ml-6 font-bold text-yellow-600"
+                                                    type="submit">Rate
+                                            </button>
+                                        </div>
+                                        <a class="ml-4 cursor-pointer text-xs hover:underline"
+                                           x-on:click="rateSong=false" wire:click="resetSong()">
+                                            Close
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {{--   rate Song modal--}}
 
                 </div>
             </div>

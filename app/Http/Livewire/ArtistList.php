@@ -27,6 +27,10 @@ class ArtistList extends Component
         return view('livewire.artist-list', compact('artists'));
     }
 
+    /**
+     * Set artist Id for deletion modal
+     * @param $id
+     */
     public function setArtist($id)
     {
         $this->artistId = $id;
@@ -34,6 +38,10 @@ class ArtistList extends Component
         $this->artistName = $artist->name;
     }
 
+    /**
+     * Set artist Id for songs modal
+     * @param $id
+     */
     public function setArtistSongs($id)
     {
         $artist = Artist::find($id);
@@ -42,12 +50,18 @@ class ArtistList extends Component
         $this->artistName = $artist->name;
     }
 
+    /**
+     * Reset Artist Details
+     */
     public function resetArtist()
     {
         $this->artistId = '';
         $this->artistName = '';
     }
 
+    /**
+     * Delete artist from DB
+     */
     public function deleteArtist()
     {
         Artist::find($this->artistId)->delete();
