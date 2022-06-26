@@ -17,4 +17,5 @@ Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
 
 Route::resources([
     'artists' => \App\Http\Controllers\ArtistController::class,
+    'songs' => \App\Http\Controllers\SongController::class,
 ]);
