@@ -10,7 +10,7 @@
         <div class="bg-white p-8 rounded-md w-full">
             <div class=" flex items-center justify-between pb-6">
                 <div class="flex items-center justify-between w-full">
-                    <div class="w-4/5">
+                    <div class="w-full md:w-3/5 2xl:w-4/5">
                         <input type="search" wire:model="searchString" class="form-control w-full"
                                placeholder="Search Artists">
                     </div>

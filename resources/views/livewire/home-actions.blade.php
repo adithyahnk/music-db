@@ -119,7 +119,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($artists->sortBy('name') as $artist)
+                            @forelse($artists as $artist)
                                 <tr>
                                     <td class="table-details">
                                         <div class="flex items-center">
