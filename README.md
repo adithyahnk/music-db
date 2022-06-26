@@ -37,7 +37,7 @@ php artisan key:generate
 ```
 Run DB Migrations
 ```
-cp .env.example .env
+php artisan migrate
 ```
 Populate the DB with sample data
 ```
