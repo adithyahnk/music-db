@@ -108,6 +108,7 @@
         {{--   add Artist modal--}}
     </div>
 
+
 @endsection
 
 @section('js')

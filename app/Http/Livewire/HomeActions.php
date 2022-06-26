@@ -8,31 +8,28 @@ use App\Models\Song;
 use App\Models\SongArtist;
 use App\Models\User;
 use Livewire\Component;
-use Livewire\WithPagination;
 
-class SongList extends Component
+class HomeActions extends Component
 {
-    use WithPagination;
-
-    public $searchString;
+    public $songArtists;
 
     public $songId, $songName;
 
-    public $songArtists;
-
     public $rating, $user;
+
+    public $artistName;
+
+    public $artistSongs;
 
     public function render()
     {
-        if (strlen($this->searchString) > 0) {
-            $this->resetPage();
-        }
-        $songs = Song::where('name', 'like', '%' . $this->searchString . '%')->paginate(7);
-        return view('livewire.song-list', compact('songs'));
+        $songs = Song::all()->sortByDesc('rating')->take(10);
+        $artists = Artist::all()->sortByDesc('rating')->take(10);
+        return view('livewire.home-actions',compact('songs','artists'));
     }
 
     /**
-     * Set artist Id for deletion modal
+     * Set song Details
      * @param $id
      */
     public function setSong($id)
@@ -40,6 +37,17 @@ class SongList extends Component
         $this->songId = $id;
         $song = Song::find($id);
         $this->songName = $song->name;
+    }
+
+    /**
+     * Reset Song Details
+     */
+    public function resetSong()
+    {
+        $this->songId = '';
+        $this->songName = '';
+        $this->rating = '';
+        $this->user = '';
     }
 
     /**
@@ -52,25 +60,6 @@ class SongList extends Component
         $artistIds = SongArtist::where('song_id', $id)->pluck('artist_id')->toArray();
         $this->songArtists = Artist::whereIn('id', $artistIds)->get();
         $this->songName = $song->name;
-    }
-
-    /**
-     * Reset Artist Details
-     */
-    public function resetSong()
-    {
-        $this->songId = '';
-        $this->songName = '';
-        $this->rating = '';
-        $this->user = '';
-    }
-
-    /**
-     * Delete song from DB
-     */
-    public function deleteSong()
-    {
-        Song::find($this->songId)->delete();
     }
 
     /**
@@ -121,6 +110,18 @@ class SongList extends Component
         }
 
         session()->flash('message', 'You have rating the Song ' . $song->name . ' with ' . $this->rating . ' stars.');
+    }
+
+    /**
+     * Set artist Id for songs modal
+     * @param $id
+     */
+    public function setArtistSongs($id)
+    {
+        $artist = Artist::find($id);
+        $songIds = SongArtist::where('artist_id', $id)->pluck('song_id')->toArray();
+        $this->artistSongs = Song::whereIn('id', $songIds)->get();
+        $this->artistName = $artist->name;
     }
 
 }

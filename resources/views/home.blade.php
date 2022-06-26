@@ -13,6 +13,7 @@
             </h2>
         </div>
     </header>
+    <livewire:home-actions/>
 
 @endsection
 

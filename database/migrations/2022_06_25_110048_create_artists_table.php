@@ -18,7 +18,7 @@ class CreateArtistsTable extends Migration
             $table->string('name')->nullable();
             $table->date('dob')->nullable();
             $table->text('bio')->nullable();
-            $table->float('rating')->nullable()->default(0);
+            $table->float('rating')->nullable();
             $table->timestamps();
         });
     }
