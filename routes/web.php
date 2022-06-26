@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::post('/add/artist', [\App\Http\Controllers\ArtistController::class, 'addDynamicArtist']);
 
 Route::resources([
     'artists' => \App\Http\Controllers\ArtistController::class,

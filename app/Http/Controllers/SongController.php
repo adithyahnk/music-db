@@ -47,6 +47,16 @@ class SongController extends Controller
         }
         $song->save();
 
+        $artists = $request->get('artists');
+        if (isset($artists) && count($artists) > 0) {
+            foreach ($artists as $key => $value) {
+                SongArtist::create([
+                    'song_id' => $song->id,
+                    'artist_id' => $value
+                ]);
+            }
+        }
+
         return redirect('songs');
     }
 
@@ -96,6 +106,16 @@ class SongController extends Controller
         }
         $song->save();
 
+        SongArtist::where('song_id', $song->id)->delete();
+        $artists = $request->get('artists');
+        if (isset($artists) && count($artists) > 0) {
+            foreach ($artists as $key => $value) {
+                SongArtist::create([
+                    'song_id' => $song->id,
+                    'artist_id' => $value
+                ]);
+            }
+        }
         return redirect('songs');
     }
 
